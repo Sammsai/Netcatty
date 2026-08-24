@@ -517,19 +517,11 @@ test("note code block frame is borderless and language picker is compact", () =>
 
   assert.match(
     styles,
-    /\.netcatty-mdx-editor\s+\[class\*="_codeMirrorWrapper_"\]\s*\{[^}]*border:\s*0\s*!important;[^}]*background:\s*transparent\s*!important;[^}]*padding:\s*0\s*!important;/s,
+    /\.netcatty-mdx-editor\s+\[class\*="_codeMirrorWrapper_"\]\s*\{[^}]*border:\s*0\s*!important;[^}]*padding:\s*0\.2rem\s+0\s*!important;/s,
   );
   assert.match(
     styles,
-    /\.netcatty-mdx-editor\s+\.cm-editor\s*\{[^}]*border:\s*0\s*!important;[^}]*background:\s*transparent\s*!important;/s,
-  );
-  assert.match(
-    styles,
-    /\.netcatty-mdx-content\s+pre\s*\{[^}]*border:\s*0;[^}]*background:\s*transparent;[^}]*padding:\s*0;/s,
-  );
-  assert.match(
-    styles,
-    /\.netcatty-note-code-copy\s*\{[^}]*border:\s*0\s*!important;[^}]*background:\s*transparent\s*!important;[^}]*box-shadow:\s*none\s*!important;/s,
+    /\.netcatty-mdx-editor\s+\.cm-editor\s*\{[^}]*border:\s*0\s*!important;/s,
   );
   assert.match(
     styles,
@@ -569,7 +561,7 @@ test("note code block frame is borderless and language picker is compact", () =>
   );
   assert.match(
     styles,
-    /\.netcatty-mdx-editor:not\(\.netcatty-mdx-editor--preview\)\s+\[class\*="_codeMirrorWrapper_"\]\s*\{[^}]*gap:\s*0;[^}]*margin:\s*0\.25rem\s+0\s+0\.55rem;/s,
+    /\.netcatty-mdx-editor:not\(\.netcatty-mdx-editor--preview\)\s+\[class\*="_codeMirrorWrapper_"\]\s*\{[^}]*gap:\s*0;[^}]*margin:\s*0\.3rem\s+0\s+0\.65rem;/s,
   );
   assert.match(
     styles,
@@ -577,7 +569,7 @@ test("note code block frame is borderless and language picker is compact", () =>
   );
   assert.match(
     styles,
-    /\.netcatty-mdx-editor\s+\.cm-gutters\s*\{[^}]*background:\s*transparent\s*!important;[^}]*padding:\s*0\s*!important;/s,
+    /\.netcatty-mdx-editor\s+\.cm-gutters\s*\{[^}]*padding:\s*0\s*!important;/s,
   );
   assert.match(
     styles,
@@ -585,21 +577,21 @@ test("note code block frame is borderless and language picker is compact", () =>
   );
 });
 
-test("note formulas render without framed surfaces", () => {
+test("note formulas render with framed surfaces", () => {
   const styles = readFileSync(new URL("../../index.css", import.meta.url), "utf8");
 
   assert.doesNotMatch(styles, /data-language="math"/);
   assert.match(
     styles,
-    /\.netcatty-math-formula-preview\s*\{[^}]*background:\s*transparent;[^}]*border:\s*0;/s,
+    /\.netcatty-math-formula-preview\s*\{[^}]*background:\s*hsl\(var\(--card\)\s*\/\s*0\.85\);[^}]*border:\s*1px solid hsl\(var\(--border\)\s*\/\s*0\.6\);/s,
   );
   assert.match(
     styles,
-    /\.netcatty-math-reading-mode\s*\{[^}]*background:\s*transparent\s*!important;[^}]*border:\s*none\s*!important;[^}]*padding:\s*0\s*!important;/s,
+    /\.netcatty-math-reading-mode\s*\{[^}]*background:\s*transparent\s*!important;[^}]*border:\s*none\s*!important;/s,
   );
   assert.match(
     styles,
-    /\.netcatty-math-reading-mode\s+\.netcatty-math-formula-preview\s*\{[^}]*background:\s*transparent;/s,
+    /\.netcatty-math-reading-mode\s+\.netcatty-math-formula-preview\s*\{[^}]*background:\s*hsl\(var\(--secondary\)\s*\/\s*0\.25\);/s,
   );
   assert.match(styles, /\.netcatty-math-formula-preview\s*\{[^}]*justify-content:\s*safe center;[^}]*overflow-x:\s*auto;/s);
   assert.match(

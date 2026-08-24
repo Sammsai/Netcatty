@@ -1356,26 +1356,26 @@ html[data-theme-transition] *::after {
 
 .netcatty-mdx-content pre {
   border: 0;
-  border-radius: 0;
-  background: transparent;
-  padding: 0;
+  border-radius: 6px;
+  background: hsl(var(--secondary) / 0.35);
+  padding: 0.75rem;
 }
 
 .netcatty-mdx-editor [class*="_codeMirrorWrapper_"] {
   position: relative !important;
-  min-height: 2rem !important;
-  margin: 0.35rem 0 0.65rem;
+  min-height: 2.85rem !important;
+  margin: 0.5rem 0 0.85rem;
   border: 0 !important;
-  border-radius: 0;
-  background: transparent !important;
-  padding: 0 !important;
+  border-radius: 6px;
+  background: hsl(var(--secondary) / 0.35) !important;
+  padding: 0.2rem 0 !important;
   overflow: visible !important;
 }
 
 .netcatty-note-code-copy {
   position: absolute !important;
-  top: 0.2rem !important;
-  right: 0.15rem !important;
+  top: 0.35rem !important;
+  right: 0.35rem !important;
   z-index: 40 !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -1383,11 +1383,11 @@ html[data-theme-transition] *::after {
   width: 1.45rem !important;
   height: 1.45rem !important;
   padding: 0 !important;
-  border: 0 !important;
+  border: 1px solid hsl(var(--border) / 0.7) !important;
   border-radius: 4px !important;
-  background: transparent !important;
+  background: hsl(var(--background) / 0.95) !important;
   color: hsl(var(--muted-foreground)) !important;
-  box-shadow: none !important;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12) !important;
   opacity: 0;
   cursor: pointer !important;
   transition: opacity 0.15s, color 0.15s, background-color 0.15s;
@@ -1445,26 +1445,24 @@ html[data-theme-transition] *::after {
 
 .netcatty-mdx-editor [class*="_codeMirrorWrapper_"]:has([data-language="latex"]),
 .netcatty-mdx-editor [class*="_codeMirrorWrapper_"]:has([data-language="tex"]) {
-  border: 0 !important;
-  background: transparent !important;
-  padding: 0 !important;
+  border-left: 3px solid hsl(var(--primary)) !important;
+  background: hsl(var(--secondary) / 0.25) !important;
 }
 
 .netcatty-math-formula-preview {
   display: flex;
   align-items: center;
   justify-content: safe center;
-  padding: 0.55rem 0;
-  margin: 0.4rem 0;
-  border-radius: 0;
-  background: transparent;
-  border: 0;
+  padding: 0.85rem 1.25rem;
+  margin: 0.35rem 0.5rem 0.35rem;
+  border-radius: 6px;
+  background: hsl(var(--card) / 0.85);
+  border: 1px solid hsl(var(--border) / 0.6);
   font-size: 1.45em;
   color: hsl(var(--foreground));
   overflow-x: auto;
-  max-width: 100%;
   user-select: text;
-  min-height: 2.25rem;
+  min-height: 2.75rem;
 }
 
 .netcatty-math-formula-preview .katex-display {
@@ -1488,13 +1486,12 @@ html[data-theme-transition] *::after {
 .netcatty-math-reading-mode {
   background: transparent !important;
   border: none !important;
-  padding: 0 !important;
-  margin: 0.4rem 0 !important;
+  margin: 0.5rem 0 !important;
 }
 
 .netcatty-math-reading-mode .netcatty-math-formula-preview {
   margin: 0;
-  background: transparent;
+  background: hsl(var(--secondary) / 0.25);
 }
 
 .netcatty-math-reading-mode > .netcatty-note-code-copy {
@@ -1506,9 +1503,9 @@ html[data-theme-transition] *::after {
   flex-direction: column;
   align-items: stretch;
   gap: 0;
-  margin: 0.25rem 0 0.55rem;
-  border-radius: 0;
-  background: transparent !important;
+  margin: 0.3rem 0 0.65rem;
+  border-radius: 6px;
+  background: hsl(var(--secondary) / 0.35) !important;
   overflow: visible !important;
 }
 
@@ -1517,7 +1514,7 @@ html[data-theme-transition] *::after {
 }
 
 .netcatty-mdx-editor:not(.netcatty-mdx-editor--preview) [class*="_codeMirrorWrapper_"] .cm-editor {
-  min-height: 2rem !important;
+  min-height: 2.2rem !important;
   background: transparent !important;
   border-radius: 0 !important;
 }
@@ -1744,8 +1741,8 @@ html[data-theme-transition] *::after {
   --note-code-token-string: color-mix(in oklab, hsl(var(--primary)) 24%, hsl(var(--foreground)));
   overflow: hidden;
   border: 0 !important;
-  border-radius: 0;
-  background: transparent !important;
+  border-radius: 6px;
+  background: hsl(var(--secondary) / 0.35) !important;
   color: hsl(var(--foreground) / 0.9) !important;
   font-family: var(--font-mono);
   font-size: 13px !important;
@@ -1761,7 +1758,7 @@ html[data-theme-transition] *::after {
   background: transparent !important;
   color: hsl(var(--foreground) / 0.9) !important;
   font-family: var(--font-mono);
-  padding: 0 !important;
+  padding: 0.25rem 0 !important;
 }
 
 .netcatty-mdx-editor .cm-line {
@@ -1812,7 +1809,7 @@ html[data-theme-transition] *::after {
 
 .netcatty-mdx-editor .cm-gutters {
   border-right: 1px solid hsl(var(--border) / 0.35) !important;
-  background: transparent !important;
+  background: hsl(var(--secondary) / 0.24) !important;
   color: hsl(var(--muted-foreground) / 0.75) !important;
   font-family: var(--font-mono);
   font-size: 13px !important;
