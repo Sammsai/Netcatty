@@ -39,22 +39,27 @@ test("source undo history coalesces only adjacent edits of the same typing kind"
 });
 
 test("math language detection does not mistake plain text blocks for TeX", () => {
-  assert.equal(isNoteMathLanguageLabel("math"), false);
-  assert.equal(isNoteMathLanguageLabel("Math (LaTeX)"), false);
+  assert.equal(isNoteMathLanguageLabel("math"), true);
+  assert.equal(isNoteMathLanguageLabel("Math (LaTeX)"), true);
   assert.equal(isNoteMathLanguageLabel("language-latex"), true);
   assert.equal(isNoteMathLanguageLabel("language-tex highlighted"), true);
   assert.equal(isNoteMathLanguageLabel("latex"), true);
   assert.equal(isNoteMathLanguageLabel("tex"), true);
-  assert.equal(isNoteMathLanguageLabel("公式"), false);
+  assert.equal(isNoteMathLanguageLabel("katex"), true);
+  assert.equal(isNoteMathLanguageLabel("formula"), true);
+  assert.equal(isNoteMathLanguageLabel("公式"), true);
   assert.equal(isNoteMathLanguageLabel("text"), false);
   assert.equal(isNoteMathLanguageLabel("plaintext"), false);
   assert.equal(isNoteMathLanguageLabel("typescript"), false);
   assert.equal(shouldRenderNoteMathFormula("Plain text"), false);
   assert.equal(shouldRenderNoteMathFormula("plaintext"), false);
   assert.equal(shouldRenderNoteMathFormula(""), false);
-  assert.equal(shouldRenderNoteMathFormula("math"), false);
+  assert.equal(shouldRenderNoteMathFormula("math"), true);
   assert.equal(shouldRenderNoteMathFormula("latex"), true);
   assert.equal(shouldRenderNoteMathFormula("tex"), true);
+  assert.equal(shouldRenderNoteMathFormula("katex"), true);
+  assert.equal(shouldRenderNoteMathFormula("plaintext", "$$ x + y = z $$"), true);
+  assert.equal(shouldRenderNoteMathFormula("plaintext", "hello world"), false);
 });
 
 test("live note decoration scans are debounced while preview mounts stay immediate", () => {

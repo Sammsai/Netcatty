@@ -1498,6 +1498,19 @@ html[data-theme-transition] *::after {
   display: none !important;
 }
 
+p.netcatty-math-block-p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.25rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  background: hsl(var(--secondary) / 0.25);
+  font-size: 1.45em;
+  color: hsl(var(--foreground));
+  overflow-x: auto;
+}
+
 .netcatty-mdx-editor:not(.netcatty-mdx-editor--preview) [class*="_codeMirrorWrapper_"] {
   display: flex;
   flex-direction: column;

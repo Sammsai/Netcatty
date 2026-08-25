@@ -284,8 +284,10 @@ const NOTE_CODE_BLOCK_LANGUAGES = {
   js: "JavaScript",
   json: "JSON",
   jsx: "JavaScript (React)",
+  katex: "KaTeX",
   latex: "LaTeX",
   markdown: "Markdown",
+  math: "Math (LaTeX)",
   md: "Markdown",
   nginx: "Nginx",
   plaintext: "Plain text",
@@ -799,14 +801,35 @@ export const annotateNoteCodeBlockDeleteButtons = (container: HTMLElement): void
 export const isNoteMathLanguageLabel = (value: string): boolean => {
   const normalized = value.toLowerCase().trim();
   if (!normalized) return false;
-  return normalized === "latex"
+  return (
+    normalized === "latex"
     || normalized === "tex"
-    || /(?:^|\s)language-(?:latex|tex)(?:\s|$)/.test(normalized);
+    || normalized === "math"
+    || normalized === "katex"
+    || normalized === "formula"
+    || normalized === "公式"
+    || normalized === "math (latex)"
+    || /(?:^|\s)language-(?:latex|tex|math|katex|formula)(?:\s|$)/.test(normalized)
+    || /^(?:math|latex|tex|katex|formula|公式)(?:\s|\(|$)/.test(normalized)
+  );
 };
 
 export const shouldRenderNoteMathFormula = (
   languageLabel: string,
-): boolean => isNoteMathLanguageLabel(languageLabel);
+  content?: string,
+): boolean => {
+  if (isNoteMathLanguageLabel(languageLabel)) return true;
+  if (content) {
+    const trimmed = content.trim();
+    if (trimmed.startsWith("$$") && trimmed.endsWith("$$") && trimmed.length >= 4) {
+      return true;
+    }
+    if (trimmed.startsWith("\\[") && trimmed.endsWith("\\]") && trimmed.length >= 4) {
+      return true;
+    }
+  }
+  return false;
+};
 
 export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: string): void => {
   container.querySelectorAll('[class*="_codeMirrorWrapper_"], pre').forEach((wrapper) => {
@@ -825,7 +848,7 @@ export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: st
 
     const text = getCodeMirrorBlockText(wrapper).trim();
 
-    const isMathBlock = shouldRenderNoteMathFormula(lang);
+    const isMathBlock = shouldRenderNoteMathFormula(lang, text);
     if (!isMathBlock) {
       const existingPreview = wrapper.querySelector(".netcatty-math-formula-preview");
       if (existingPreview) existingPreview.remove();
@@ -850,7 +873,11 @@ export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: st
 
     if (preview.dataset.formulaSource !== formulaSource) {
       preview.dataset.formulaSource = formulaSource;
-      preview.innerHTML = renderNoteMathFormula(formulaSource);
+      try {
+        preview.innerHTML = renderNoteMathFormula(formulaSource);
+      } catch {
+        preview.textContent = formulaSource;
+      }
     }
 
     if (editorMode === "preview") {
@@ -860,6 +887,21 @@ export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: st
     }
   });
 
+  if (editorMode === "preview") {
+    container.querySelectorAll("p").forEach((p) => {
+      const pText = p.textContent?.trim() || "";
+      if (pText.startsWith("$$") && pText.endsWith("$$") && pText.length >= 4) {
+        if (p.querySelector(".katex, math")) return;
+        const formula = pText.slice(2, -2).trim();
+        try {
+          p.innerHTML = renderNoteMathFormula(formula);
+          p.classList.add("netcatty-math-block-p");
+        } catch {
+          // ignore
+        }
+      }
+    });
+  }
 };
 
 const deleteLexicalTextRange = (range: Range, onUpdate: () => void): boolean => {
