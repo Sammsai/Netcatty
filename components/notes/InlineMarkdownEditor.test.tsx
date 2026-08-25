@@ -373,8 +373,7 @@ test("note editor registers a code block editor for pasted fenced code", () => {
     /codeBlockPlugin\([^)]*\),\s*codeMirrorPlugin\(\{\s*codeBlockLanguages:/s,
   );
   assert.match(source, /codeMirrorExtensions:\s*NOTE_CODE_MIRROR_EXTENSIONS/);
-  assert.match(source, /syntaxHighlighting\(noteCodeHighlightStyle\)/);
-});
+  assert.match(source, /syntaxHighlighting\(noteCodeHighlightStyle\)/);  assert.match(source, /tooltips\(\{\s*parent:\s*typeof document !== "undefined" \? document\.body : undefined,\s*\}\)/);});
 
 test("note editor enables image plugin for remote markdown images", () => {
   const source = readFileSync(new URL("./InlineMarkdownEditor.tsx", import.meta.url), "utf8");
@@ -522,6 +521,10 @@ test("note code block active line is highlighted only while focused", () => {
   assert.match(
     styles,
     /\.cm-tooltip\.cm-tooltip-autocomplete\s*>\s*ul\s*\{[^}]*background:\s*hsl\(var\(--popover\)\)/s,
+  );
+  assert.match(
+    styles,
+    /\.cm-tooltip\s+\.cm-completionMatchedText,\s*\.netcatty-mdx-editor\s+\.cm-tooltip\s+\.cm-completionMatchedText\s*\{[^}]*color:\s*inherit\s*!important;[^}]*font-weight:\s*700\s*!important;[^}]*text-decoration:\s*underline\s*!important;/s,
   );
 });
 

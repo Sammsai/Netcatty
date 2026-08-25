@@ -1752,7 +1752,6 @@ p.netcatty-math-block-p {
   --note-code-token-name: color-mix(in oklab, hsl(var(--primary)) 50%, hsl(var(--foreground)));
   --note-code-token-value: color-mix(in oklab, hsl(var(--primary)) 38%, hsl(var(--foreground)));
   --note-code-token-string: color-mix(in oklab, hsl(var(--primary)) 24%, hsl(var(--foreground)));
-  overflow: hidden;
   border: 0 !important;
   border-radius: 6px;
   background: hsl(var(--secondary) / 0.35) !important;
@@ -1908,9 +1907,19 @@ p.netcatty-math-block-p {
 
 .cm-tooltip .cm-completionMatchedText,
 .netcatty-mdx-editor .cm-tooltip .cm-completionMatchedText {
-  color: hsl(var(--primary)) !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
+  color: inherit !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected="true"] .cm-completionMatchedText,
+.cm-tooltip.cm-tooltip-autocomplete > ul > li:hover .cm-completionMatchedText,
+.netcatty-mdx-editor .cm-tooltip-autocomplete > ul > li[aria-selected="true"] .cm-completionMatchedText,
+.netcatty-mdx-editor .cm-tooltip-autocomplete > ul > li:hover .cm-completionMatchedText {
+  color: inherit !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
 }
 
 .cm-tooltip .cm-completionDetail,
