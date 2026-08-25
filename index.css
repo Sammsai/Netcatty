@@ -1857,6 +1857,81 @@ p.netcatty-math-block-p {
   border-left-color: hsl(var(--foreground)) !important;
 }
 
+.cm-tooltip,
+.netcatty-mdx-editor .cm-tooltip {
+  background: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
+  border: 1px solid hsl(var(--border) / 0.8) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.3) !important;
+  z-index: 9999 !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete,
+.netcatty-mdx-editor .cm-tooltip-autocomplete {
+  background: hsl(var(--popover)) !important;
+  border: 1px solid hsl(var(--border) / 0.8) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete > ul,
+.netcatty-mdx-editor .cm-tooltip-autocomplete > ul {
+  background: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 12px !important;
+  max-height: 14rem !important;
+  padding: 4px !important;
+  margin: 0 !important;
+  list-style: none !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete > ul > li,
+.netcatty-mdx-editor .cm-tooltip-autocomplete > ul > li {
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  color: hsl(var(--popover-foreground)) !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected="true"],
+.cm-tooltip.cm-tooltip-autocomplete > ul > li:hover,
+.netcatty-mdx-editor .cm-tooltip-autocomplete > ul > li[aria-selected="true"],
+.netcatty-mdx-editor .cm-tooltip-autocomplete > ul > li:hover {
+  background: hsl(var(--accent)) !important;
+  color: hsl(var(--accent-foreground)) !important;
+}
+
+.cm-tooltip .cm-completionMatchedText,
+.netcatty-mdx-editor .cm-tooltip .cm-completionMatchedText {
+  color: hsl(var(--primary)) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.cm-tooltip .cm-completionDetail,
+.netcatty-mdx-editor .cm-tooltip .cm-completionDetail {
+  color: hsl(var(--muted-foreground)) !important;
+  font-size: 0.85em !important;
+  font-style: italic !important;
+  margin-left: auto !important;
+}
+
+.cm-tooltip.cm-completionInfo,
+.netcatty-mdx-editor .cm-completionInfo {
+  background: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
+  border: 1px solid hsl(var(--border) / 0.8) !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  font-size: 12px !important;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.3) !important;
+}
+
 .netcatty-mdx-content blockquote {
   margin: 0.7rem 0;
   border-left: 2px solid hsl(var(--border));

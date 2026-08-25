@@ -515,6 +515,14 @@ test("note code block active line is highlighted only while focused", () => {
     styles,
     /\.netcatty-mdx-editor\s+\.cm-editor:focus-within\s+\.cm-activeLine,\s*\.netcatty-mdx-editor\s+\.cm-editor:focus-within\s+\.cm-activeLineGutter\s*\{[^}]*background:\s*hsl\(var\(--primary\)\s*\/\s*0\.08\)/s,
   );
+  assert.match(
+    styles,
+    /\.cm-tooltip,\s*\.netcatty-mdx-editor\s+\.cm-tooltip\s*\{[^}]*background:\s*hsl\(var\(--popover\)\)/s,
+  );
+  assert.match(
+    styles,
+    /\.cm-tooltip\.cm-tooltip-autocomplete\s*>\s*ul\s*\{[^}]*background:\s*hsl\(var\(--popover\)\)/s,
+  );
 });
 
 test("note code block frame is borderless and language picker is compact", () => {
