@@ -1355,7 +1355,7 @@ html[data-theme-transition] *::after {
 }
 
 .netcatty-mdx-content pre {
-  border: 0;
+  border: 1px solid hsl(var(--border) / 0.6);
   border-radius: 6px;
   background: hsl(var(--secondary) / 0.35);
   padding: 0.75rem;
@@ -1365,7 +1365,7 @@ html[data-theme-transition] *::after {
   position: relative !important;
   min-height: 2.85rem !important;
   margin: 0.5rem 0 0.85rem;
-  border: 0 !important;
+  border: 1px solid hsl(var(--border) / 0.6) !important;
   border-radius: 6px;
   background: hsl(var(--secondary) / 0.35) !important;
   padding: 0.2rem 0 !important;
@@ -1491,6 +1491,7 @@ html[data-theme-transition] *::after {
 
 .netcatty-math-reading-mode .netcatty-math-formula-preview {
   margin: 0;
+  border: 1px solid hsl(var(--border) / 0.6);
   background: hsl(var(--secondary) / 0.25);
 }
 
@@ -1505,6 +1506,7 @@ p.netcatty-math-block-p {
   padding: 0.85rem 1.25rem;
   margin: 0.5rem 0;
   border-radius: 6px;
+  border: 1px solid hsl(var(--border) / 0.6);
   background: hsl(var(--secondary) / 0.25);
   font-size: 1.45em;
   color: hsl(var(--foreground));
@@ -1517,6 +1519,7 @@ p.netcatty-math-block-p {
   align-items: stretch;
   gap: 0;
   margin: 0.3rem 0 0.65rem;
+  border: 1px solid hsl(var(--border) / 0.6) !important;
   border-radius: 6px;
   background: hsl(var(--secondary) / 0.35) !important;
   overflow: visible !important;
@@ -1747,17 +1750,32 @@ p.netcatty-math-block-p {
 }
 
 .netcatty-mdx-editor .cm-editor {
-  --note-code-token-muted: hsl(var(--muted-foreground) / 0.9);
-  --note-code-token-keyword: color-mix(in oklab, hsl(var(--primary)) 82%, hsl(var(--foreground)));
-  --note-code-token-name: color-mix(in oklab, hsl(var(--primary)) 50%, hsl(var(--foreground)));
-  --note-code-token-value: color-mix(in oklab, hsl(var(--primary)) 38%, hsl(var(--foreground)));
-  --note-code-token-string: color-mix(in oklab, hsl(var(--primary)) 24%, hsl(var(--foreground)));
+  --note-code-token-muted: hsl(var(--muted-foreground) / 0.85);
+  --note-code-token-keyword: #cf222e;
+  --note-code-token-name: #6f42c1;
+  --note-code-token-variable: #24292f;
+  --note-code-token-type: #0550ae;
+  --note-code-token-property: #0550ae;
+  --note-code-token-value: #953800;
+  --note-code-token-string: #116329;
   border: 0 !important;
   border-radius: 6px;
   background: hsl(var(--secondary) / 0.35) !important;
   color: hsl(var(--foreground) / 0.9) !important;
   font-family: var(--font-mono);
   font-size: 13px !important;
+}
+
+.dark .netcatty-mdx-editor .cm-editor,
+html.dark .netcatty-mdx-editor .cm-editor {
+  --note-code-token-muted: hsl(var(--muted-foreground) / 0.85);
+  --note-code-token-keyword: #ff7b72;
+  --note-code-token-name: #d2a8ff;
+  --note-code-token-variable: #e6edf3;
+  --note-code-token-type: #79c0ff;
+  --note-code-token-property: #79c0ff;
+  --note-code-token-value: #ffab70;
+  --note-code-token-string: #7ee787;
 }
 
 .netcatty-mdx-editor .cm-scroller {
@@ -1786,11 +1804,20 @@ p.netcatty-math-block-p {
   color: var(--note-code-token-keyword) !important;
 }
 
-.netcatty-mdx-editor .cm-content .netcatty-code-token-name,
-.netcatty-mdx-editor .cm-content .netcatty-code-token-variable,
-.netcatty-mdx-editor .cm-content .netcatty-code-token-type,
-.netcatty-mdx-editor .cm-content .netcatty-code-token-property {
+.netcatty-mdx-editor .cm-content .netcatty-code-token-name {
   color: var(--note-code-token-name) !important;
+}
+
+.netcatty-mdx-editor .cm-content .netcatty-code-token-variable {
+  color: var(--note-code-token-variable, var(--note-code-token-name)) !important;
+}
+
+.netcatty-mdx-editor .cm-content .netcatty-code-token-type {
+  color: var(--note-code-token-type, var(--note-code-token-name)) !important;
+}
+
+.netcatty-mdx-editor .cm-content .netcatty-code-token-property {
+  color: var(--note-code-token-property, var(--note-code-token-name)) !important;
 }
 
 .netcatty-mdx-editor .cm-content .netcatty-code-token-value {
@@ -1802,8 +1829,13 @@ p.netcatty-math-block-p {
 }
 
 .netcatty-mdx-editor .cm-content .netcatty-code-token-link {
-  color: hsl(var(--primary)) !important;
+  color: #0969da !important;
   text-decoration: underline;
+}
+
+.dark .netcatty-mdx-editor .cm-content .netcatty-code-token-link,
+html.dark .netcatty-mdx-editor .cm-content .netcatty-code-token-link {
+  color: #58a6ff !important;
 }
 
 .netcatty-mdx-editor .cm-content .netcatty-code-token-heading,
@@ -1860,18 +1892,20 @@ p.netcatty-math-block-p {
 .netcatty-mdx-editor .cm-tooltip {
   background: hsl(var(--popover)) !important;
   color: hsl(var(--popover-foreground)) !important;
-  border: 1px solid hsl(var(--border) / 0.8) !important;
+  border: 1px solid hsl(var(--border)) !important;
   border-radius: 6px !important;
   box-shadow: 0 6px 20px rgb(0 0 0 / 0.3) !important;
-  z-index: 9999 !important;
+  z-index: 99999 !important;
+  opacity: 1 !important;
 }
 
 .cm-tooltip.cm-tooltip-autocomplete,
 .netcatty-mdx-editor .cm-tooltip-autocomplete {
   background: hsl(var(--popover)) !important;
-  border: 1px solid hsl(var(--border) / 0.8) !important;
+  border: 1px solid hsl(var(--border)) !important;
   border-radius: 6px !important;
   overflow: hidden !important;
+  opacity: 1 !important;
 }
 
 .cm-tooltip.cm-tooltip-autocomplete > ul,
@@ -1884,6 +1918,7 @@ p.netcatty-math-block-p {
   padding: 4px !important;
   margin: 0 !important;
   list-style: none !important;
+  opacity: 1 !important;
 }
 
 .cm-tooltip.cm-tooltip-autocomplete > ul > li,
@@ -1895,6 +1930,7 @@ p.netcatty-math-block-p {
   gap: 6px !important;
   cursor: pointer !important;
   color: hsl(var(--popover-foreground)) !important;
+  background: transparent !important;
 }
 
 .cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected="true"],
@@ -1903,6 +1939,11 @@ p.netcatty-math-block-p {
 .netcatty-mdx-editor .cm-tooltip-autocomplete > ul > li:hover {
   background: hsl(var(--accent)) !important;
   color: hsl(var(--accent-foreground)) !important;
+}
+
+.cm-tooltip .cm-completionLabel,
+.netcatty-mdx-editor .cm-tooltip .cm-completionLabel {
+  color: inherit !important;
 }
 
 .cm-tooltip .cm-completionMatchedText,
@@ -1934,11 +1975,12 @@ p.netcatty-math-block-p {
 .netcatty-mdx-editor .cm-completionInfo {
   background: hsl(var(--popover)) !important;
   color: hsl(var(--popover-foreground)) !important;
-  border: 1px solid hsl(var(--border) / 0.8) !important;
+  border: 1px solid hsl(var(--border)) !important;
   border-radius: 6px !important;
   padding: 6px 10px !important;
   font-size: 12px !important;
   box-shadow: 0 6px 20px rgb(0 0 0 / 0.3) !important;
+  opacity: 1 !important;
 }
 
 .netcatty-mdx-content blockquote {

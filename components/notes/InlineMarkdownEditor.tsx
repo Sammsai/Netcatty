@@ -17,6 +17,7 @@ import {
   thematicBreakPlugin,
 } from "@mdxeditor/editor";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
+import { Prec } from "@codemirror/state";
 import { tooltips } from "@codemirror/view";
 import { tags } from "@lezer/highlight";
 import { AlertTriangle, ExternalLink } from "lucide-react";
@@ -332,9 +333,11 @@ const noteCodeHighlightStyle = HighlightStyle.define([
 
 const NOTE_CODE_MIRROR_EXTENSIONS = [
   syntaxHighlighting(noteCodeHighlightStyle),
-  tooltips({
-    parent: typeof document !== "undefined" ? document.body : undefined,
-  }),
+  Prec.highest(
+    tooltips({
+      parent: typeof document !== "undefined" ? document.body : undefined,
+    }),
+  ),
 ];
 
 type RectLike = Pick<DOMRect, "bottom" | "height" | "left" | "top" | "width">;

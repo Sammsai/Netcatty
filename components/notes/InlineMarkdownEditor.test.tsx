@@ -494,14 +494,18 @@ test("pasting inside code blocks keeps CodeMirror in control", () => {
   );
 });
 
-test("note code block editor colors follow the app theme", () => {
+test("note code block editor colors provide independent high-contrast syntax highlighting", () => {
   const styles = readFileSync(new URL("../../index.css", import.meta.url), "utf8");
+  const source = readFileSync(new URL("./InlineMarkdownEditor.tsx", import.meta.url), "utf8");
 
+  assert.match(source, /Prec\.highest\(\s*tooltips\(/);
   assert.match(styles, /\.netcatty-mdx-editor\s+\.cm-editor/);
   assert.match(styles, /\.netcatty-mdx-editor\s+\.cm-gutters/);
   assert.match(styles, /background:\s*hsl\(var\(--secondary\)/);
   assert.match(styles, /color:\s*hsl\(var\(--foreground\)/);
-  assert.match(styles, /--note-code-token-keyword:\s*color-mix\(in oklab,\s*hsl\(var\(--primary\)\)/);
+  assert.match(styles, /--note-code-token-keyword:\s*#cf222e;/);
+  assert.match(styles, /--note-code-token-keyword:\s*#ff7b72;/);
+  assert.doesNotMatch(styles, /--note-code-token-keyword:\s*color-mix/);
   assert.match(styles, /\.netcatty-mdx-editor\s+\.cm-content\s+\.netcatty-code-token-keyword/);
   assert.match(styles, /\.netcatty-mdx-editor\s+\.cm-content\s+\.netcatty-code-token-string/);
   assert.doesNotMatch(styles, /span\[class\*="ͼ"\]/);
@@ -525,20 +529,20 @@ test("note code block active line is highlighted only while focused", () => {
   );
   assert.match(
     styles,
-    /\.cm-tooltip\.cm-tooltip-autocomplete\s*>\s*ul\s*\{[^}]*background:\s*hsl\(var\(--popover\)\)/s,
+    /\.cm-tooltip\.cm-tooltip-autocomplete\s*>\s*ul[^{]*\{[^}]*background:\s*hsl\(var\(--popover\)\)/s,
   );
   assert.match(
     styles,
-    /\.cm-tooltip\s+\.cm-completionMatchedText,\s*\.netcatty-mdx-editor\s+\.cm-tooltip\s+\.cm-completionMatchedText\s*\{[^}]*color:\s*inherit\s*!important;[^}]*font-weight:\s*700\s*!important;[^}]*text-decoration:\s*underline\s*!important;/s,
+    /\.cm-tooltip\s+\.cm-completionMatchedText[^{]*\{[^}]*color:\s*inherit\s*!important;[^}]*font-weight:\s*700\s*!important;[^}]*text-decoration:\s*underline\s*!important;/s,
   );
 });
 
-test("note code block frame is borderless and language picker is compact", () => {
+test("note code block frame is framed with borders and language picker is compact", () => {
   const styles = readFileSync(new URL("../../index.css", import.meta.url), "utf8");
 
   assert.match(
     styles,
-    /\.netcatty-mdx-editor\s+\[class\*="_codeMirrorWrapper_"\]\s*\{[^}]*border:\s*0\s*!important;[^}]*padding:\s*0\.2rem\s+0\s*!important;/s,
+    /\.netcatty-mdx-editor\s+\[class\*="_codeMirrorWrapper_"\]\s*\{[^}]*border:\s*1px solid hsl\(var\(--border\)\s*\/\s*0\.6\)\s*!important;[^}]*padding:\s*0\.2rem\s+0\s*!important;/s,
   );
   assert.match(
     styles,
@@ -612,7 +616,11 @@ test("note formulas render with framed surfaces", () => {
   );
   assert.match(
     styles,
-    /\.netcatty-math-reading-mode\s+\.netcatty-math-formula-preview\s*\{[^}]*background:\s*hsl\(var\(--secondary\)\s*\/\s*0\.25\);/s,
+    /\.netcatty-math-reading-mode\s+\.netcatty-math-formula-preview\s*\{[^}]*border:\s*1px solid hsl\(var\(--border\)\s*\/\s*0\.6\);[^}]*background:\s*hsl\(var\(--secondary\)\s*\/\s*0\.25\);/s,
+  );
+  assert.match(
+    styles,
+    /p\.netcatty-math-block-p\s*\{[^}]*border:\s*1px solid hsl\(var\(--border\)\s*\/\s*0\.6\);[^}]*background:\s*hsl\(var\(--secondary\)\s*\/\s*0\.25\);/s,
   );
   assert.match(styles, /\.netcatty-math-formula-preview\s*\{[^}]*justify-content:\s*safe center;[^}]*overflow-x:\s*auto;/s);
   assert.match(
