@@ -304,6 +304,7 @@ const NOTE_CODE_BLOCK_LANGUAGES = {
   sh: "Shell",
   shell: "Shell",
   sql: "SQL",
+  tex: "TeX",
   toml: "TOML",
   ts: "TypeScript",
   tsx: "TypeScript (React)",
@@ -830,20 +831,7 @@ export const isNoteMathLanguageLabel = (value: string): boolean => {
 
 export const shouldRenderNoteMathFormula = (
   languageLabel: string,
-  content?: string,
-): boolean => {
-  if (isNoteMathLanguageLabel(languageLabel)) return true;
-  if (content) {
-    const trimmed = content.trim();
-    if (trimmed.startsWith("$$") && trimmed.endsWith("$$") && trimmed.length >= 4) {
-      return true;
-    }
-    if (trimmed.startsWith("\\[") && trimmed.endsWith("\\]") && trimmed.length >= 4) {
-      return true;
-    }
-  }
-  return false;
-};
+): boolean => isNoteMathLanguageLabel(languageLabel);
 
 export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: string): void => {
   container.querySelectorAll('[class*="_codeMirrorWrapper_"], pre').forEach((wrapper) => {
@@ -862,7 +850,7 @@ export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: st
 
     const text = getCodeMirrorBlockText(wrapper).trim();
 
-    const isMathBlock = shouldRenderNoteMathFormula(lang, text);
+    const isMathBlock = shouldRenderNoteMathFormula(lang);
     if (!isMathBlock) {
       const existingPreview = wrapper.querySelector(".netcatty-math-formula-preview");
       if (existingPreview) existingPreview.remove();
@@ -901,21 +889,6 @@ export const annotateMathFormulaBlocks = (container: HTMLElement, editorMode: st
     }
   });
 
-  if (editorMode === "preview") {
-    container.querySelectorAll("p").forEach((p) => {
-      const pText = p.textContent?.trim() || "";
-      if (pText.startsWith("$$") && pText.endsWith("$$") && pText.length >= 4) {
-        if (p.querySelector(".katex, math")) return;
-        const formula = pText.slice(2, -2).trim();
-        try {
-          p.innerHTML = renderNoteMathFormula(formula);
-          p.classList.add("netcatty-math-block-p");
-        } catch {
-          // ignore
-        }
-      }
-    });
-  }
 };
 
 const deleteLexicalTextRange = (range: Range, onUpdate: () => void): boolean => {

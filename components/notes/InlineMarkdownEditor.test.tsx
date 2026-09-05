@@ -5,6 +5,7 @@ import { JSDOM } from "jsdom";
 
 import {
   annotateNoteCodeBlockDeleteButtons,
+  annotateMathFormulaBlocks,
   createNoteDecorationMutationScheduler,
   getHostPickerTriggerRange,
   getNoteDecorationMutationDelay,
@@ -58,8 +59,6 @@ test("math language detection does not mistake plain text blocks for TeX", () =>
   assert.equal(shouldRenderNoteMathFormula("latex"), true);
   assert.equal(shouldRenderNoteMathFormula("tex"), true);
   assert.equal(shouldRenderNoteMathFormula("katex"), true);
-  assert.equal(shouldRenderNoteMathFormula("plaintext", "$$ x + y = z $$"), true);
-  assert.equal(shouldRenderNoteMathFormula("plaintext", "hello world"), false);
 });
 
 test("live note decoration scans are debounced while preview mounts stay immediate", () => {
@@ -792,4 +791,33 @@ test("raw source drafts are not overwritten by external values with equivalent d
     latestSourceMarkdown: "![x](/public/x.png)",
     nextSourceMarkdown: "![x](/x.png)",
   }), true);
+});
+
+
+test("formula preview preserves literal fenced examples and supports TeX", () => {
+  const dom = new JSDOM(`<div id="container"><p id="inline"><code>$$ x + y $$</code></p><p id="link"><a href="https://example.com">$$ link $$</a></p><pre id="plain"><code>$$ x + y $$</code></pre><pre id="text"><code class="language-text">\\[x+y\\]</code></pre><pre id="tex"><code class="language-tex">x+y</code></pre></div>`);
+  const globals = ["HTMLElement", "HTMLSelectElement", "document"] as const;
+  const previous = globals.map((key) => Object.getOwnPropertyDescriptor(globalThis, key));
+  globals.forEach((key) => Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] }));
+  try {
+    const container = dom.window.document.querySelector("#container") as HTMLElement;
+    annotateMathFormulaBlocks(container, "preview");
+    for (const id of ["plain", "text"]) {
+      const block = container.querySelector(`#${id}`)!;
+      assert.equal(block.querySelector(".netcatty-math-formula-preview"), null);
+      assert.equal(block.classList.contains("netcatty-math-reading-mode"), false);
+    }
+    assert.ok(container.querySelector("#tex .katex"));
+    assert.ok(container.querySelector("#inline code"));
+    assert.ok(container.querySelector("#link a"));
+    const source = readFileSync(new URL("./InlineMarkdownEditor.tsx", import.meta.url), "utf8");
+    assert.match(source, /tex: "TeX"/);
+  } finally {
+    globals.forEach((key, index) => {
+      const descriptor = previous[index];
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else Reflect.deleteProperty(globalThis, key);
+    });
+    dom.window.close();
+  }
 });
